@@ -765,9 +765,12 @@ class DeviceStatus(DeviceStatusBase):
             attributes = {}
             for capabilities in component.values():
                 for attribute, value in capabilities.items():
+                    if attributes.get(attribute) is not None:
+                        continue
                     attributes[attribute] = Status(
                         value.get("value"), value.get("unit"), value.get("data")
                     )
+
             if component_id == "main":
                 self._attributes.clear()
                 self._attributes.update(attributes)
